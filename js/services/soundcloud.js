@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    function SoundCloudService($http) {
+    function SoundCloudService($http, ConfigService) {
         var service = {};
         var intv,
             audio = document.querySelector('audio'),
@@ -10,6 +10,7 @@
 		service.scResponse = null;
 
 		service.init = function() {
+      var config = ConfigService.getConfiguration();
       // If the soundcloud key is defined and not empty
       if(typeof config.soundcloud != 'undefined' && config.soundcloud.length) {
           SC.initialize({
@@ -20,6 +21,7 @@
 
         //Returns the soundcloud search results for the given query
         service.searchSoundCloud = function(query) {
+          var config = ConfigService.getConfiguration();
             return $http.get('https://api.soundcloud.com/tracks.json?client_id=' + config.soundcloud.key + '&q=' + query + '&limit=1').
                 then(function(response) {
                     service.scResponse = response.data;

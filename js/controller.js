@@ -18,9 +18,12 @@
             SearchService,
             SoundCloudService,
             RssService,
+            ConfigService,
             $rootScope, $scope, $timeout, $interval, tmhDynamicLocale, $translate) {
 
         // Local Scope Vars
+        ConfigService.initialize();
+
         var _this = this;
         $scope.listening = false;
         $scope.debug = false;
@@ -31,7 +34,8 @@
         $scope.interimResult = $translate.instant('home.commands');
         $scope.layoutName = 'main';
         $scope.fitbitEnabled = false;
-        $scope.config = config;
+        $scope.config = ConfigService.getConfiguration();
+        var config = ConfigService.getConfiguration();
 
         if (typeof config.fitbit !== 'undefined') {
             $scope.fitbitEnabled = true;
@@ -84,6 +88,8 @@
         }
 
         _this.init = function() {
+
+
             AutoSleepService.startAutoSleepTimer();
 
             var tick = $interval(updateTime, 1000);
@@ -105,7 +111,7 @@
                     console.log(error);
                 });
             };
-            
+
             registerRefreshInterval(refreshCalendar, 25);
 
             var refreshFitbitData = function() {
@@ -192,7 +198,7 @@
             };
 
             if(typeof config.traffic !== 'undefined'){
-                registerRefreshInterval(refreshTrafficData, config.traffic.refreshInterval || 5);    
+                registerRefreshInterval(refreshTrafficData, config.traffic.refreshInterval || 5);
             }
 
             var refreshComic = function () {
@@ -203,14 +209,14 @@
                     console.log(error);
                 });
             };
-            
+
             registerRefreshInterval(refreshComic, 12*60); // 12 hours
 
             var defaultView = function() {
                 console.debug("Ok, going to default view...");
                 $scope.focus = "default";
             }
-        
+
             var refreshRss = function () {
                 console.log ("Refreshing RSS");
                 $scope.news = null;
@@ -218,7 +224,7 @@
             };
 
             var updateNews = function() {
-                $scope.news = RssService.getNews(); 
+                $scope.news = RssService.getNews();
             };
 
             if(typeof config.rss !== 'undefined'){
@@ -505,7 +511,8 @@
     angular.module('SmartMirror')
         .controller('MirrorCtrl', MirrorCtrl);
 
-    function themeController($scope) {
+    function themeController($scope, ConfigService) {
+      var config = ConfigService.getConfiguration();
         $scope.layoutName = (typeof config.layout !== 'undefined' && config.layout)?config.layout:'main';
     }
 

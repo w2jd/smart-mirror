@@ -1,7 +1,7 @@
 (function(annyang) {
     'use strict';
 
-    function RssService($http) {
+    function RssService($http, ConfigService) {
         var service = {};
         service.feed = [];
         service.currentFeed = 0;
@@ -10,6 +10,7 @@
             service.feed = [];
             service.currentFeed = 0;
             var currentTime = new moment();
+            var config = ConfigService.getConfiguration();
 
             if (typeof config.rss != 'undefined'){
                 angular.forEach(config.rss.feeds, function(url) {
@@ -22,7 +23,7 @@
                             };
                             //console.log(feedEntry);
                             service.feed.push(feedEntry);
-                        }    
+                        }
                     });
                 });
             }
@@ -34,6 +35,7 @@
         };
 
         service.getNews = function() {
+          var config = ConfigService.getConfiguration();
             if (service.feed == null) {
                 return null;
             }
@@ -49,7 +51,7 @@
                     }
                     else {
                         service.currentFeed = service.currentFeed + 1;
-                    }               
+                    }
             };
             return service.feed[service.currentFeed];
         } ;

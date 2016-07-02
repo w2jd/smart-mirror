@@ -1,15 +1,16 @@
 (function() {
     'use strict';
 
-    function TrafficService($http, $q, TimeboxService) {
+    function TrafficService($http, $q, TimeboxService, ConfigService) {
         var service = {};
         var BING_MAPS = "http://dev.virtualearth.net/REST/V1/Routes/"
 
         service.getDurationForTrips = function(){
+          var config = ConfigService.getConfiguration();
             var deferred = $q.defer();
             var promises = [];
 
-            if(typeof config.traffic != 'undefined' && config.traffic.trips != 'undefined'){                
+            if(typeof config.traffic != 'undefined' && config.traffic.trips != 'undefined'){
                 angular.forEach(config.traffic.trips, function(trip) {
                     if (trip.hasOwnProperty('startTime') && TimeboxService.shouldDisplay(trip.startTime, trip.endTime)
                         || !trip.hasOwnProperty('startTime')) {
@@ -47,13 +48,14 @@
               console.error(error.statusText);
               deferred.reject('Unknown error');
             }
-            duration = deferred.promise;
+            var duration = deferred.promise;
           });
           return deferred.promise;
         }
 
         // Depending on the mode of transport different paramaters are required.
         function getEndpoint(trip){
+          var config = ConfigService.getConfiguration();
             var endpoint = BING_MAPS + trip.mode + "?wp.0=" + trip.origin + "&wp.1="+trip.destination;
             if(trip.mode == "Driving"){
                 endpoint += "&avoid=minimizeTolls";
@@ -71,6 +73,6 @@
     }
 
     angular.module('SmartMirror')
-        .factory('TrafficService', ['$http', '$q', 'TimeboxService', TrafficService]);
+        .factory('TrafficService', ['$http', '$q', 'TimeboxService', 'ConfigService', TrafficService]);
 
 }());

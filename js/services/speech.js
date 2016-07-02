@@ -3,13 +3,14 @@ const {ipcRenderer} = require('electron');
 (function(annyang) {
     'use strict';
 
-    function SpeechService($rootScope) {
+    function SpeechService($rootScope, ConfigService) {
         var service = {};
-   
+
         service.init = function() {
+          var config = ConfigService.getConfiguration();
             // Set annyang language defined in the config file
             annyang.setLanguage((typeof config.language != 'undefined')?config.language : 'en-US');
-            
+
             // Inicialize Keyword Spotter IPC
             ipcRenderer.on('keyword-spotted', (event, arg) => {
                 annyang.start();
@@ -18,11 +19,12 @@ const {ipcRenderer} = require('electron');
 
         // Register callbacks for the controller. does not utelize CallbackManager()
         service.registerCallbacks = function(cb) {
+          var config = ConfigService.getConfiguration();
             // annyang.addCommands(service.commands);
-            
+
             // Annyang is a bit "chatty", turn this on only for debugging
             annyang.debug(false);
-            
+
             // add specified callback functions
             if (isCallback(cb.listening)) {
                 annyang.addCallback('start', function(){
@@ -51,12 +53,12 @@ const {ipcRenderer} = require('electron');
                 });
             };
         };
-        
+
         // Ensure callback is a valid function
         function isCallback(callback){
             return typeof(callback) == "function";
         }
-        
+
         // COMMANDS
         service.commands = {};
         service.addCommand = function(phrase, callback) {
@@ -74,18 +76,18 @@ const {ipcRenderer} = require('electron');
             annyang.addCommands(service.commands);
             console.debug('added command "' + phrase + '"', service.commands);
         };
-        
+
         // Annyang start listening
         service.start = function(){
             // Listen for the next utterance and then stop
             annyang.start({autoRestart: false, continuous: false});
         }
-        
+
         // Annyang stop listening
         service.abort = function(){
             annyang.abort();
         }
-        
+
         service.init();
 
         return service;

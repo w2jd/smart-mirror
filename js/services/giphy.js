@@ -1,12 +1,12 @@
 (function() {
     'use strict';
 
-    function GiphyService($http) {
+    function GiphyService($http, ConfigService) {
         var service = {};
         service.gif = null;
 
         service.init = function(img){
-
+          var config = ConfigService.getConfiguration();
           return $http.get("http://api.giphy.com/v1/gifs/random?api_key="+config.giphy.key+"&tag="+img).
               then(function(response) {
                   return service.gif = response.data;

@@ -1,12 +1,13 @@
 (function(annyang) {
   'use strict';
 
-  function CalendarService($window, $http, $q) {
+  function CalendarService($window, $http, $q, ConfigService) {
     var service = {};
 
     service.events = [];
 
     service.getCalendarEvents = function() {
+      var config = ConfigService.getConfiguration();
       var deferred = $q.defer();
 
       service.events = [];
@@ -176,6 +177,7 @@
     }
 
     service.getFutureEvents = function() {
+      var config = ConfigService.getConfiguration();
       var future_events = [],
         current_date = new moment(),
         end_date = new moment().add(config.calendar.maxDays, 'days');

@@ -9,7 +9,7 @@
      deferred.resolve(position);
      */
 
-    function GeolocationService($q,$rootScope,$window) {
+    function GeolocationService($q,$rootScope,$window, ConfigService) {
         var service = {};
         var geoloc = null;
         var geolocation_msgs = {
@@ -20,6 +20,7 @@
         }
 
         service.getLocation = function (opts) {
+          var config = ConfigService.getConfiguration();
         var deferred = $q.defer();
 
         // Use geo postion from config file if it is defined

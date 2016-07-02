@@ -1,11 +1,12 @@
 (function() {
     'use strict';
 
-    function SearchService($http) {
+    function SearchService($http, ConfigService) {
         var service = {};
 
         //Returns the YouTube search results for the given query
         service.searchYouTube = function(query) {
+          var config = ConfigService.getConfiguration();
             return $http({
                 url :'https://www.googleapis.com/youtube/v3/search',
                 method: 'GET',
@@ -15,11 +16,11 @@
                     'q' : query,
                     'type':'video',
                     'videoEmbeddable': 'true',
-                    //Sharing this key in the hopes that it wont be abused 
+                    //Sharing this key in the hopes that it wont be abused
                     'key': config.youtube.key
                 }
             });
-        }        
+        }
         return service;
     }
 

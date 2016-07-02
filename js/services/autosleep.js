@@ -1,18 +1,19 @@
 (function() {
     'use strict';
 
-    function AutoSleepService($interval) {
+    function AutoSleepService($interval, ConfigService) {
         var service = {};
         var autoSleepTimer;
 
         service.exec = require('child_process').exec;
 
         service.startAutoSleepTimer = function() {
-            if (typeof config.autoTimer !== 'undefined' && typeof config.autoTimer.autoSleep !== 'undefined' && typeof config.autoTimer.auto_wake !== 'undefined') {
-                service.stopAutoSleepTimer();
-                autoSleepTimer = $interval(service.sleep, config.autoTimer.autoSleep);
-                console.debug('Starting auto-sleep timer', config.autoTimer.autoSleep);
-            }
+          var config = ConfigService.getConfiguration();
+          if (typeof config.autoTimer !== 'undefined' && typeof config.autoTimer.autoSleep !== 'undefined' && typeof config.autoTimer.auto_wake !== 'undefined') {
+              service.stopAutoSleepTimer();
+              autoSleepTimer = $interval(service.sleep, config.autoTimer.autoSleep);
+              console.debug('Starting auto-sleep timer', config.autoTimer.autoSleep);
+          }
         };
 
         service.stopAutoSleepTimer = function() {
@@ -21,11 +22,13 @@
         };
 
         service.wake = function() {
-            service.exec(config.autoTimer.wake_cmd, service.puts);
+          var config = ConfigService.getConfiguration();
+          service.exec(config.autoTimer.wake_cmd, service.puts);
         };
 
         service.sleep = function() {
-            service.exec(config.autoTimer.sleep_cmd, service.puts);
+          var config = ConfigService.getConfiguration();
+          service.exec(config.autoTimer.sleep_cmd, service.puts);
         };
 
         service.puts = function (error, stdout, stderr) {

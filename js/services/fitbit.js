@@ -5,13 +5,13 @@
     var app     = express();
     var fs      = require( 'fs' );
     var Fitbit  = require( 'fitbit-oauth2' );
-    
-    function FitbitService($http) {
+
+    function FitbitService($http, ConfigService) {
 
         var service = {};
         var summary = null;
         var today = null;
-        
+
         // Simple token persist functions.
         //
         var tfile = 'fb-token.json';
@@ -36,8 +36,9 @@
         // Instantiate a fitbit client.
         //
         var fitbit = {};
+        var config = ConfigService.getConfiguration();
         if (typeof config.fitbit != 'undefined') {
-            fitbit = new Fitbit(config.fitbit); 
+            fitbit = new Fitbit(config.fitbit);
         }
 
         // In a browser, http://localhost:4000/fitbit to authorize a user for the first time.
@@ -154,14 +155,14 @@
             // Add padding for the date, (we want 0x where x is the day or month number if its less than 10)
             if(dd<10) {
                 dd='0'+dd
-            } 
+            }
 
             if(mm<10) {
                 mm='0'+mm
-            } 
+            }
 
             today = yyyy+'-'+mm+'-'+dd;
-                
+
             // Make an API call to get the users activities for today
             fitbit.request({
                 uri: "https://api.fitbit.com/1/user/-/activities/date/" + today + ".json",
@@ -171,7 +172,7 @@
                     console.log(err);
                 }
                 var result = JSON.parse(body);
-                
+
                 // If the token arg is not null, then a refresh has occured and
                 // we must persist the new token.
                 if (token) {
@@ -182,7 +183,7 @@
                 return callback(result);
             });
         }
-        
+
         return service;
     }
 

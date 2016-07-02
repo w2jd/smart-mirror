@@ -3,14 +3,15 @@
 
     var Hyperion = require('hyperion-client');
 
-    function LightService($http, $translate) {
+    function LightService($http, $translate, ConfigService) {
         var service = {};
 
         // update lights
         service.performUpdate = function(spokenWords){
+          var config = ConfigService.getConfiguration();
             // split string into separate words and remove empty ones
             var spokenWords = spokenWords.toLowerCase().split(" ").filter(Boolean);
-   
+
             // what locations are defined in the config
             var definedLocations = [];
             for(var i = 0; i < config.light.setup.length; i++){
@@ -143,6 +144,7 @@
         }
 
         function updateLights(setting){
+          var config = ConfigService.getConfiguration();
             var index = setting['location'];
             for(var i = 0; i < config.light.setup[index].targets.length; i++){
                 if(config.light.setup[index].targets[i].type == "hyperion"){
@@ -155,6 +157,7 @@
         }
 
         function updateHyperion(i, index, setting){
+          var config = ConfigService.getConfiguration();
             // Convert color and brightness
             for(var j = 0; j <  setting['colorRGB'].length; j++){
                 setting['colorRGB'][j] = Math.round(setting['colorRGB'][j] * setting['brightness']);
@@ -177,9 +180,10 @@
         }
 
         function updateHue(i, index, setting){
+          var config = ConfigService.getConfiguration();
             var update = {};
             update["transitiontime"] = 10;
-            
+
             update['on'] = setting['on'];
             if(setting['on']){
                 update['hue'] = setting['colorHSV'][0];
