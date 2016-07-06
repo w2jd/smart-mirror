@@ -82,7 +82,7 @@
             if(typeof interval !== 'undefined'){
                 $interval(callback, interval * 60000);
             }
-        }
+        };
 
         _this.init = function() {
             AutoSleepService.startAutoSleepTimer();
@@ -171,7 +171,7 @@
                         greetingTime = "night";
                     }
                     var nextIndex = Math.floor(Math.random() * config.greeting[greetingTime].length);
-                    var nextGreeting = config.greeting[greetingTime][nextIndex]
+                    var nextGreeting = config.greeting[greetingTime][nextIndex];
                     $scope.greeting = nextGreeting;
                 }else if(Array.isArray(config.greeting)){
                     $scope.greeting = config.greeting[Math.floor(Math.random() * config.greeting.length)];
@@ -210,7 +210,7 @@
             var defaultView = function() {
                 console.debug("Ok, going to default view...");
                 $scope.focus = "default";
-            }
+            };
 
             var refreshRss = function () {
                 console.log ("Refreshing RSS");
@@ -228,7 +228,7 @@
               }, function(error) {
                 console.log(error);
               });
-            }
+            };
 
             if (typeof config.stock !== 'undefined' && config.stock.names.length) {
               registerRefreshInterval(getStock, 30);
@@ -282,7 +282,7 @@
             addCommand('screen on', function() {
                 console.debug('turning screen on');
                 AutoSleepService.wake();
-                $scope.focus = "default"
+                $scope.focus = "default";
             });
 
             // Hide everything and "sleep"
