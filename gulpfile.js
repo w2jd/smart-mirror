@@ -33,8 +33,6 @@ var stylelintConfig = {
     "number-leading-zero": "never",
     "number-no-trailing-zeros": true,
     "property-no-vendor-prefix": true,
-    "declaration-block-no-single-line": true,
-    "rule-trailing-semicolon": "always",
     "selector-list-comma-space-before": "never",
     "selector-list-comma-newline-after": "always",
     "selector-no-id": true,
@@ -86,7 +84,7 @@ var processors = [
   // Pretty reporting config
   reporter({
     clearMessages: true,
-    throwError: true
+    throwError: false
   })
 ];
 
