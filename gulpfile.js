@@ -98,7 +98,6 @@ gulp.task('postcss', function() {
     )
     .pipe(postcss(processors));
 });
-}
 
 /**
  * Karma testing
