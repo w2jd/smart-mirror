@@ -33,7 +33,6 @@ var stylelintConfig = {
     "number-leading-zero": "never",
     "number-no-trailing-zeros": true,
     "property-no-vendor-prefix": true,
-    "rule-no-duplicate-properties": true,
     "declaration-block-no-single-line": true,
     "rule-trailing-semicolon": "always",
     "selector-list-comma-space-before": "never",
