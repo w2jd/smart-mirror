@@ -4,7 +4,7 @@ node_js:
 before_script:
   - npm install gulp
   - bower install -f
-script: gulp,
+script: gulp
 cache:
   directories:
     - node_modules
