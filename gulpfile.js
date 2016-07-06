@@ -91,7 +91,7 @@ var processors = [
   })
 ];
 
-gulp.task('postcss') {
+gulp.task('postcss', function() {
   return gulp.src(
       // Stylesheet source:
       ['css/**/*.css']
