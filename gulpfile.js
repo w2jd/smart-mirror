@@ -1,21 +1,50 @@
 var gulp = require('gulp'),
-del = require('del'),
-htmlmin = require('gulp-htmlmin'),
-ngTemplates = require('gulp-ng-templates'),
-cssmin = require('gulp-minify-css'),
-uglify = require('gulp-uglify'),
-karma = require('karma').server,
-concat = require('gulp-concat'),
-jshint = require('gulp-jshint'),
-gulpif = require('gulp-if'),
-zip = require('gulp-zip'),
-path = require('path'),
-browserSync = require('browser-sync'),
-pkg = require('./package.json'),
-reload = browserSync.reload,
-exec = require('gulp-exec');
+var del = require('del'),
+var htmlmin = require('gulp-htmlmin'),
+var ngTemplates = require('gulp-ng-templates'),
+var cssmin = require('gulp-minify-css'),
+var uglify = require('gulp-uglify'),
+var karma = require('karma').server,
+var concat = require('gulp-concat'),
+var jshint = require('gulp-jshint'),
+var gulpif = require('gulp-if'),
+var zip = require('gulp-zip'),
+var path = require('path'),
+var browserSync = require('browser-sync'),
+var pkg = require('./package.json'),
+var reload = browserSync.reload,
+var exec = require('gulp-exec');
+var postcss = require('gulp-postcss');
+var reporter    = require('postcss-reporter');
+var stylelint   = require('stylelint');
 
-gulp.task('default', ['lint'], function() {
+var stylelintConfig = {
+  "rules": {
+    "block-no-empty": true,
+    "color-no-invalid-hex": true,
+    "declaration-colon-space-after": "always",
+    "declaration-colon-space-before": "never",
+    "function-comma-space-after": "always",
+    "function-url-quotes": "double",
+    "media-feature-colon-space-after": "always",
+    "media-feature-colon-space-before": "never",
+    "media-feature-name-no-vendor-prefix": true,
+    "max-empty-lines": 5,
+    "number-leading-zero": "never",
+    "number-no-trailing-zeros": true,
+    "property-no-vendor-prefix": true,
+    "rule-no-duplicate-properties": true,
+    "declaration-block-no-single-line": true,
+    "rule-trailing-semicolon": "always",
+    "selector-list-comma-space-before": "never",
+    "selector-list-comma-newline-after": "always",
+    "selector-no-id": true,
+    "string-quotes": "double",
+    "value-no-vendor-prefix": true
+  }
+}
+
+gulp.task('default', ['lint', 'postcss'], function() {
 
 });
 
@@ -52,6 +81,24 @@ gulp.task('lint', function() {
   .pipe(jshint())
   .pipe(jshint.reporter('default'));
 })
+
+var processors = [
+  stylelint(stylelintConfig),
+  // Pretty reporting config
+  reporter({
+    clearMessages: true,
+    throwError: true
+  })
+];
+
+gulp.task('postcss') {
+  return gulp.src(
+      // Stylesheet source:
+      ['css/**/*.css']
+    )
+    .pipe(postcss(processors));
+});
+}
 
 /**
  * Karma testing
