@@ -49,7 +49,9 @@
     "karma": "latest",
     "karma-jasmine": "latest",
     "karma-phantomjs-launcher": "latest",
-    "karma-ng-html2js-preprocessor": "latest"    
+    "karma-ng-html2js-preprocessor": "latest",
+    "jasmine-core": "latest",
+    "phantomjs-prebuilt": "latest",        
   },
   "dependencies": {
     "express": "^4.13.4",
