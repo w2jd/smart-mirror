@@ -74,7 +74,7 @@ gulp.task('server', function() {
  * JSLint/JSHint validation
  */
 gulp.task('lint', function() {
-  return gulp.src('./js/*.js')
+  return gulp.src('./js/**/*.js')
   .pipe(jshint())
   .pipe(jshint.reporter('default'));
 })
