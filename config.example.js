@@ -43,7 +43,8 @@ var config = {
     light : {
         settings : {
             hueIp : "", // The IP address of your hue base
-            hueUsername : "" // The username used to control your hue
+            hueUsername : "", // The username used to control your hue
+            lifxToken : "" // The token from LIFX lights
         },
         setup : [
             {
@@ -57,6 +58,11 @@ var config = {
                     {
                         type : "hue", // Philips Hue
                         id : 1 // The group id (0 will change all the lights on the network)
+                    },
+                    {
+                        type : "lifx", // LIFX bulbs
+                        // The light id (leaving this out will apply changes to All lights belonging to the authenticated account)
+                        id : "d3b2f2d97452" 
                     }
                 ]
             },

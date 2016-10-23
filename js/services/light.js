@@ -37,27 +37,35 @@
                 if($translate.instant('lights.colors.red') == spokenWords[i]){
                     SaidParameter['colorRGB'] = [255, 0, 0];
                     SaidParameter['colorHSV'] = [0, 255, 254];
+                    SaidParameter['colorRAW'] = "red";
                 } else if($translate.instant('lights.colors.green') == spokenWords[i]){
                     SaidParameter['colorRGB'] = [0, 255, 0];
                     SaidParameter['colorHSV'] = [25500, 255, 254];
+                    SaidParameter['colorRAW'] = "green";
                 } else if($translate.instant('lights.colors.blue') == spokenWords[i]){
                     SaidParameter['colorRGB'] = [0, 0, 255];
                     SaidParameter['colorHSV'] = [46920, 255, 254];
+                    SaidParameter['colorRAW'] = "blue";
                 } else if($translate.instant('lights.colors.yellow') == spokenWords[i]){
                     SaidParameter['colorRGB'] = [255, 255, 0];
                     SaidParameter['colorHSV'] = [10920, 255, 254];
+                    SaidParameter['colorRAW'] = "tellow";
                 } else if($translate.instant('lights.colors.orange') == spokenWords[i]){
                     SaidParameter['colorRGB'] = [255, 127, 0];
                     SaidParameter['colorHSV'] = [5460, 255, 254];
+                    SaidParameter['colorRAW'] = "orange";
                 } else if($translate.instant('lights.colors.pink') == spokenWords[i]){
                     SaidParameter['colorRGB'] = [255, 0, 255];
                     SaidParameter['colorHSV'] = [54610, 255, 254];
+                    SaidParameter['colorRAW'] = "pink";
                 } else if($translate.instant('lights.colors.purple') == spokenWords[i]){
                     SaidParameter['colorRGB'] = [127, 0, 127];
                     SaidParameter['colorHSV'] = [54610, 255, 127];
+                    SaidParameter['colorRAW'] = "purple";
                 } else if($translate.instant('lights.colors.white') == spokenWords[i]){
                     SaidParameter['colorRGB'] = [255, 255, 255];
                     SaidParameter['colorHSV'] = [0, 0, 254];
+                    SaidParameter['colorRAW'] = "white";
                 }
 
                 // Adjust brightness
@@ -118,6 +126,7 @@
                 if(localStorage.getItem('Light_Setup_' + i) == null){
                     SavedSetting['colorRGB'] = [255, 255, 255];
                     SavedSetting['colorHSV'] = [0, 0, 254];
+                    SavedSetting['colorRAW'] = "white";
                     SavedSetting['brightness'] = 0.4
                 }
                 else{
@@ -150,6 +159,9 @@
                 }
                 else if(config.light.setup[index].targets[i].type == "hue"){
                     updateHue(i, index, setting);
+                }
+                else if(config.light.setup[index].targets[i].type == "lifx"){
+                    updateLIFX(i, index, setting);
                 }
             }
         }
@@ -188,6 +200,28 @@
             }
 
             $http.put('http://' + config.light.settings.hueIp + '/api/' + config.light.settings.hueUsername + "/groups/" + config.light.setup[index].targets[i].id + "/action", update)
+            .success(function (data, status, headers) {
+                console.log(data);
+            })
+        }
+
+        function updateLIFX(i, index, setting){
+            var update = {};
+            update["duration"] = 10;
+            
+            update['power'] = (setting['on'])? "on" : "off";
+            if(setting['power']){
+                update['color'] = setting['colorRAW'];
+                update['brightness'] = setting['brightness'];
+            }
+            
+            var target =  "all"
+            if(config.light.setup[index].targets.id){
+                target = "id:" + config.light.setup[index].targets.id;
+            }
+
+            $http.put('https://api.lifx.com/v1/lights/' + target + "/state", update, 
+                {headers: {'Authorization': 'Bearer' + config.light.settings.lifxToken}})
             .success(function (data, status, headers) {
                 console.log(data);
             })
