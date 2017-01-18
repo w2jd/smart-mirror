@@ -5,10 +5,10 @@ $('document').ready(function () {
     cdn.url = function(){
     	if (this.example && this.branch && this.repo){
         this.refresh()
-        return 'https://gitcdn.xyz/repo/' + this.repo + '/smart-mirror/' + this.branch + "/plugins/" + this.example + '.json'
+        return 'https://gitcdn.xyz/cdn/' + this.repo + '/smart-mirror/' + this.branch + "/plugins/" + this.example + '.json'
       } else {
         this.refresh()
-        return 'https://gitcdn.xyz/repo/evancohen/smart-mirror/master/plugins/speech/config.schema.json'
+        return 'https://gitcdn.xyz/cdn/evancohen/smart-mirror/master/plugins/speech/config.schema.json'
       }
     }
     cdn.refresh = function(a,b){
