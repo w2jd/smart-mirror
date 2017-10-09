@@ -224,6 +224,11 @@
             "text": "Remove ________ from (my) ________ list",
             "voice": "Remove *element from (my) *project list",
             "description": "Remove item from requested list."
+        },
+        "netflix_chill": {
+            "text": "Netflix and chill",
+            "voice": "netflix and chill",
+            "description": "It's time to watch netflix."
         }
     },
     "fitbit": {

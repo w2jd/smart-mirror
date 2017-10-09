@@ -57,6 +57,14 @@ $(function () {
 		socket.emit('clickSleep')
 	})
 
+	$('#mute').click(function () {
+		socket.emit('mute')
+	})
+
+	$('#unmute').click(function () {
+		socket.emit('unmute')
+	})
+
 	// config clicks
 	$('#outClose').click(function () {
 		clearTimeout(timeoutID)

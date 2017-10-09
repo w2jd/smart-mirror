@@ -67,8 +67,16 @@ remote.start = function () {
 		socket.on('clickWakeUp', function () {
 			remote.emit('wakeUp')
 		})
+
 		socket.on('clickSleep', function () {
 			remote.emit('sleep')
+		})
+
+		socket.on('mute', function () {
+			remote.emit('mute')
+		})
+		socket.on('unmute', function () {
+			remote.emit('unmute')
 		})
 
 		socket.on('getAnnyAng', function () {

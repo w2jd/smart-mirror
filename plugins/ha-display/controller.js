@@ -1,9 +1,9 @@
-function HADisplay($scope, $http, $interval) {
+function HADisplay($scope, $http, $interval, SpeechService) {
 
 	function getHADisplays() {
 		$scope.hadisplay = [];
 
-		if (config.hadisplay && config.hadisplay.commands.length >= 1) {
+		if (config.hadisplay && config.hadisplay.commands && config.hadisplay.commands.length >= 1) {
 			angular.forEach(config.hadisplay.commands, function (command) {
 
 				var req = {
@@ -28,6 +28,18 @@ function HADisplay($scope, $http, $interval) {
 	}
 	getHADisplays();
 	$interval(getHADisplays,(config.hadisplay ? config.hadisplay.refreshInterval * 60000 : 300000));
+
+	SpeechService.addCommand('netflix_chill', function (img) {
+		var req = {
+			method: 'POST',
+			url: config.hadisplay.url + '/api/template?api_password=' + config.hadisplay.key,
+			data: {"entity_id": "scene.netflix_and_chill"}
+		}
+
+		$http(req).then(function(response) { 
+			$scope.greeting = "Chill :)";
+		})
+	});
 }
 
 angular.module('SmartMirror')

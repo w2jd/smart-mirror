@@ -16,6 +16,9 @@ powerSaveBlocker.start('prevent-display-sleep')
 // Launching the mirror in dev mode
 const DevelopmentMode = process.argv.includes("dev")
 
+// Let me mute the mirror for the presentation
+let mute = false
+
 // Load the smart mirror config
 let config
 let firstRun = false
@@ -88,15 +91,17 @@ if (config && config.speech && !firstRun) {
 	})
 
 	kwsProcess.stdout.on('data', function (data) {
-		var message = data.toString()
-		if (message.startsWith('!h:')) {
-			mainWindow.webContents.send('hotword', true)
-		} else if (message.startsWith('!p:')) {
-			mainWindow.webContents.send('partial-results', message.substring(4))
-		} else if (message.startsWith('!f:')) {
-			mainWindow.webContents.send('final-results', message.substring(4))
-		} else {
-			console.error(message.substring(3))
+		if(!mute){
+			var message = data.toString()
+			if (message.startsWith('!h:')) {
+				mainWindow.webContents.send('hotword', true)
+			} else if (message.startsWith('!p:')) {
+				mainWindow.webContents.send('partial-results', message.substring(4))
+			} else if (message.startsWith('!f:')) {
+				mainWindow.webContents.send('final-results', message.substring(4))
+			} else {
+				console.error(message.substring(3))
+			}
 		}
 	})
 }
@@ -152,8 +157,16 @@ if (config.remote && config.remote.enabled || firstRun) {
 	remote.on('wakeUp', function () {
 		mainWindow.webContents.send('remoteWakeUp', true)
 	})
+
 	remote.on('sleep', function () {
 		mainWindow.webContents.send('remoteSleep', true)
+	})
+
+	remote.on('mute', function () {
+		mute = true
+	})
+	remote.on('unmute', function () {
+		mute = false
 	})
 
 	remote.on('relaunch', function() {
