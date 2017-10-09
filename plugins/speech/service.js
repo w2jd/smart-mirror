@@ -73,8 +73,8 @@ const {ipcRenderer} = require('electron');
 
 		service.addRawCommand = function (phrase, callback, commandDescription, commandText) {
 			var command = {};
-			command[phrase] = function (arg1, arg2) {
-				$rootScope.$apply(callback(arg1, arg2))
+			command[phrase] = function (arg1, arg2, arg3) {
+				$rootScope.$apply(callback(arg1, arg2, arg3))
 			}
 			var commandItem = { "text": commandText || phrase, "description": commandDescription };
 			commandList.push(commandItem);

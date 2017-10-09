@@ -8,7 +8,11 @@ function HADisplay($scope, $http, $interval, SpeechService) {
 
 				var req = {
 					method: 'POST',
-					url: config.hadisplay.url + '/api/template?api_password=' + config.hadisplay.key,
+					headers: {
+						'x-ha-access' : config.hadisplay.key,
+						'content-type' : 'application/json'
+					},
+					url: config.hadisplay.url + '/api/template',
 				}
 				try{
 					req.data = JSON.parse(command.template)
@@ -32,7 +36,11 @@ function HADisplay($scope, $http, $interval, SpeechService) {
 	SpeechService.addCommand('netflix_chill', function (img) {
 		var req = {
 			method: 'POST',
-			url: config.hadisplay.url + '/api/template?api_password=' + config.hadisplay.key,
+			url: config.hadisplay.url + '/api/services/scene/turn_on',
+			headers: {
+				'x-ha-access' : config.hadisplay.key,
+				'content-type' : 'application/json'
+			},
 			data: {"entity_id": "scene.netflix_and_chill"}
 		}
 

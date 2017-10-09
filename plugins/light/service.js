@@ -144,8 +144,8 @@
 		function updateLights(setting) {
 			var index = setting['location'];
 			for (var i = 0; i < config.light.setup[index].targets.length; i++) {
-				if (config.light.setup[index].targets[i].lightType == "hyperion") {
-					updateHyperion(i, index, setting);
+				if (config.light.setup[index].targets[i].lightType == "ha") {
+					updateHA(i, index, setting);
 				}
 				else if (config.light.setup[index].targets[i].lightType == "hue") {
 					updateHue(i, index, setting);
@@ -153,26 +153,28 @@
 			}
 		}
 
-		function updateHyperion(i, index, setting) {
+		function updateHA(i, index, setting) {
             // Convert color and brightness
-			for (var j = 0; j < setting['colorRGB'].length; j++) {
-				setting['colorRGB'][j] = Math.round(setting['colorRGB'][j] * setting['brightness']);
+			var req = {
+				method: 'POST',
+				url: config.hadisplay.url + '/api/services/light/' + ((setting['on'])? 'turn_on':'turn_off'),
+				headers: {
+					'x-ha-access' : config.hadisplay.key,
+					'content-type' : 'application/json'
+				},
+				data: {
+					"entity_id": config.light.setup[index].targets[i].id,
+				}
+
 			}
-            // Connect to the configured Hyperion client
-			var hyperion = new Hyperion(config.light.setup[index].targets[i].ip, config.light.setup[index].targets[i].port);
-
-			hyperion.on('connect', function () {
-				if (setting['on']) {
-					hyperion.setColor(setting['colorRGB']);
-				}
-				else {
-					hyperion.clearall();
-				}
-			});
-
-			hyperion.on('error', function (error) {
-				console.error('error:', error);
-			});
+			
+			if(setting['on']){
+				req.data.rgb_color = setting['colorRGB']
+			}
+	
+			$http(req).then(function(response) { 
+				//do something?
+			})
 		}
 
 		function updateHue(i, index, setting) {

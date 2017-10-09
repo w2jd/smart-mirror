@@ -41,7 +41,7 @@
                                             "type": "string",
                                             "title": "type",
                                             "enum": [
-                                                "hyperion",
+                                                "ha",
                                                 "hue"
                                             ]
                                         },
@@ -99,7 +99,7 @@
                                     "legend":"Item {{idx}}",
                                     "titleMap":{
                                         "hue":"Hue",
-                                        "hyperion":"Hyperion"
+                                        "ha":"Home Assistant"
                                     },
                                     "items": [
                                       {
