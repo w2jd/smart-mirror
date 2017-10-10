@@ -7,6 +7,7 @@ function Scrobbler($scope, $interval, ScrobblerService) {
 	}
     
 	if (typeof config.lastfm !== 'undefined' && typeof config.lastfm.key !== 'undefined' && config.lastfm.user !== 'undefined') {
+		getScrobblingTrack()
 		$interval(getScrobblingTrack, config.lastfm.refreshInterval * 60000 || 1800000)
 	}
 }

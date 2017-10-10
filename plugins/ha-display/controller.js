@@ -7,6 +7,7 @@ function HADisplay($scope, $http, $interval, SpeechService) {
 			angular.forEach(config.hadisplay.commands, function (command) {
 
 				var req = {
+					data : {},
 					method: 'POST',
 					headers: {
 						'x-ha-access' : config.hadisplay.key,
@@ -15,7 +16,8 @@ function HADisplay($scope, $http, $interval, SpeechService) {
 					url: config.hadisplay.url + '/api/template',
 				}
 				try{
-					req.data = JSON.parse(command.template)
+					// be careful not to use double quoats (unless they are escaped)
+					req.data.template = command.template
 				} catch(e) {
 					// no data - that's fine
 				}
