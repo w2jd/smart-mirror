@@ -25,22 +25,30 @@
 					},
 				});
 			} else {
-				if (geoloc !== null) {
-					return geoloc;
+				const https = require('https')
+
+				const https_params = {
+					  hostname: 'geoip-db.com',
+					  port: 443,
+					  path: '/json/',
+					  method: 'GET',
 				}
-				var body={};
-				if(parms!=null)
-					body = parms
-				body.considerIp=true;
-				$http.post("https://www.googleapis.com/geolocation/v1/geolocate?key="+config.geoPosition.key, body).then(
-					function (result) {
-						var location = angular.fromJson(result).data.location                
-						deferred.resolve({ 'coords': { 'latitude': location.lat, 'longitude': location.lng } })
-					},
-					function (err) {
-						deferred.reject("Failed to retrieve geolocation.eeror ="+ err)
-					}
-				);
+
+				const req = https.request(https_params, (res) => {
+					res.on('data', (req) => {
+						var info = JSON.parse(req);
+						console.log("latitude : " + info.latitude + " / longitude : " + info.longitude);
+						deferred.resolve({ 'coords': { 'latitude': info.latitude, 'longitude': info.longitude } })
+
+					})
+					req.on('error', (error) => {
+						console.error(error)
+					})
+				})
+
+				req.end()
+
+
 			}
 			geoloc = deferred.promise;
 			return geoloc;
