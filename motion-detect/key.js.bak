@@ -1,0 +1,12 @@
+function on_key_down() {
+	var keycode = event.keyCode;
+	if ( keycode == 50 ) {	// 2
+		setTimeout("window.location.href='calendar.html'", 1000);
+	} else if ( keycode == 51 ) {	// 3
+		setTimeout("window.location.href='calendar.html'", 1000);
+	} else if ( keycode == 52 ) {	// 4
+		setTimeout("window.location.href='calendar.html'", 1000);
+	} else if ( keycode == 53 ) {	// 5
+		setTimeout("window.location.href='index.html'", 1000);
+	}
+}	
