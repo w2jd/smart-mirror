@@ -93,21 +93,19 @@ while(cap.isOpened()):
         str = "This is 2"
         cv2.putText(img, str, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
         pyautogui.press('2')
-    # elif count_defects == 2:
-    #     str = "This is 3"
-    #     cv2.putText(img, str, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
-    #     pyautogui.press('3')
-    # elif count_defects == 3:
-    #     str = "This is 4"
-    #     cv2.putText(img, str, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
-    #     pyautogui.press('4')
+    elif count_defects == 2:
+        str = "This is 3"
+        cv2.putText(img, str, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
+    elif count_defects == 3:
+        str = "This is 4"
+        cv2.putText(img, str, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
     elif count_defects == 4:
         str = "This is 5"
         cv2.putText(img, str, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
         pyautogui.press('5')
         # pyautogui.hotkey('alt', 'left')
     else:
-        str = "This is Default"
+        str = "Default"
         cv2.putText(img, str, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
 
     # show appropriate images in windows
@@ -115,6 +113,6 @@ while(cap.isOpened()):
     all_img = np.hstack((drawing, crop_img))
     cv2.imshow('Contours', all_img)
 
-    k = cv2.waitKey(10)
+    k = cv2.waitKey(1000)
     if k == 27:
         break
