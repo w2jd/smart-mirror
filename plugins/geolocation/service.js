@@ -25,8 +25,8 @@
 					},
 				});
 			} else {
+				// Get geolocation to https://geoip-db.com
 				const https = require('https')
-
 				const https_params = {
 					  hostname: 'geoip-db.com',
 					  port: 443,
