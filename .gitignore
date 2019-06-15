@@ -13,4 +13,4 @@ speech/snowboydetect.pyc
 keyfile.json
 smart-mirror.log
 calendar/calldata.js
-calendar\calendar.html
+calendar/calendar.html
