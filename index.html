@@ -4,7 +4,7 @@
 <head ng-controller="Theme">
   <meta charset="utf-8">
   <title>Smart Mirror</title>
-  
+
   <!-- Motion Detect -->
   <script src="motion-detect/key.js"></script>
   <script>
@@ -21,16 +21,16 @@
         fs.appendFileSync('./smart-mirror.log', '['+ new Date().toString() + '] '
         + errorMsg + '| Script: ' + url + ' Line: ' + lineNumber + '\n');
     }
-	
+
 	window.onload = function () {
 		document.getElementById("pagemain").style.display="block";
 		document.getElementById("pagecal").style.display="none";
 	}
   </script>
-  
+
   <!-- Styles and Resources -->
   <link rel="shortcut icon" href="favicon.ico" />
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,800,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" ng-href="app/css/OpenSans.css"/>
   <link rel="stylesheet" ng-href="app/css/{{ layoutName }}.css" />
   <link rel="stylesheet" href="app/css/weather-icons.css">
 

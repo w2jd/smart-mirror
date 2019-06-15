@@ -12,3 +12,5 @@ speech/snowboydetect.pyc
 .vscode
 keyfile.json
 smart-mirror.log
+calendar/calldata.js
+calendar\calendar.html
